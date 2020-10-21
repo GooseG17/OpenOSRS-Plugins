@@ -1,0 +1,20 @@
+private static final int NPC_SECTION_ACTION = MenuAction.NPC_SECOND_OPTION.getId();
+	private static final String ATTACK = "Attack";
+	private static final String DARK_ENERGY_CORE = "Dark energy core";
+	@Subscribe
+	public void onMenuEntryAdded(MenuEntryAdded menuEntryAdded)
+	{
+		if (menuEntryAdded.getType() == NPC_SECTION_ACTION
+				&& menuEntryAdded.getOption().equals(ATTACK))
+		{
+			final int npcIndex = menuEntryAdded.getIdentifier();
+			final NPC npc = client.getCachedNPCs()[npcIndex];
+			if (npc != null && npc.getName().equals(DARK_ENERGY_CORE))
+			{
+				MenuEntry[] menuEntries = client.getMenuEntries();
+				MenuEntry menuEntry = menuEntries[menuEntries.length - 1];
+
+				menuEntry.setType(NPC_SECTION_ACTION + MENU_ACTION_DEPRIORITIZE_OFFSET);
+				client.setMenuEntries(menuEntries);
+			}
+		}
